@@ -1,0 +1,45 @@
+name: Send GitHub Stats to CloudWatch
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  send-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: 
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: | 
+          python -m pip install --upgrade pip
+          pip install requests boto3
+
+      - name: Fetch and Upload GitHub Repository Stats GitHUb Action Render Repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          REPO_NAME: 'amazon-ecs-render-task-definition'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          NAMESPACE: ${{ secrets.NAMESPACE }}
+        run:
+          python .github/workflows/fetch_and_upload_stats.py
+
+      - name: Fetch and Upload GitHub Repository Stats GitHUb Action Deploy Repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          REPO_NAME: 'amazon-ecs-deploy-task-definition'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          NAMESPACE: ${{ secrets.NAMESPACE }}
+        run:
+          python .github/workflows/fetch_and_upload_stats.py
