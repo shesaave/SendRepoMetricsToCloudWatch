@@ -29,7 +29,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          #NAMESPACE: ${{ secrets.NAMESPACE }}
+          NAMESPACE: ${{ secrets.NAMESPACE }}
         run:
           python .github/workflows/fetch_and_upload_stats.py
 
@@ -40,6 +40,6 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-         # NAMESPACE: ${{ secrets.NAMESPACE }}
+          NAMESPACE: ${{ secrets.NAMESPACE }}
         run:
           python .github/workflows/fetch_and_upload_stats.py
