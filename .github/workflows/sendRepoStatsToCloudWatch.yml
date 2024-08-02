@@ -43,3 +43,4 @@ jobs:
           NAMESPACE: ${{ secrets.NAMESPACE }}
         run:
           python .github/workflows/fetch_and_upload_stats.py
+#stuff
