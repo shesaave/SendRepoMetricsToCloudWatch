@@ -74,8 +74,7 @@ def fetch_num_closed_prs_for_week():
         end_of_day = datetime.datetime.combine(current_day, datetime.time.max)
         url_closed_prs = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_day.isoformat()}&until={end_of_day.isoformat()}"
         fetch_data(url_closed_prs)
-
-return fetch_num_closed_prs_for_week()
+        return fetch_num_closed_prs_for_week()
 
 
 '''
