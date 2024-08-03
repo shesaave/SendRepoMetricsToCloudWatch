@@ -63,29 +63,15 @@ def fetch_num_closed_issues():
   url_closed_issues = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/issues?state=closed"
   return fetch_data(url_closed_issues)
 
-def fetch_num_closed_prs_for_week():
-    today = datetime.date.today()
-    start_of_week = today - datetime.timedelta(days=today.weekday())
-    end_of_week = start_of_week + datetime.timedelta(days=6)
-
-    for n in range(int((end_of_week - start_of_week).days) + 1):
-        current_day = start_of_week + datetime.timedelta(n)
-        start_of_day = datetime.datetime.combine(current_day, datetime.time.min)
-        end_of_day = datetime.datetime.combine(current_day, datetime.time.max)
-        url_closed_prs = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_day.isoformat()}&until={end_of_day.isoformat()}"
-        fetch_data(url_closed_prs)
-        return fetch_num_closed_prs_for_week()
-
-
-'''
 def fetch_num_closed_prs_yesterday():
-  today = date.today()
-  yesterday = today - timedelta(days=1)
-  start_of_yesterday = date.combine(yesterday, date.min.time())
-  end_of_yesterday = date.combine(yesterday, date.max.time())
+  today = datetime.utcnow().date()
+  current_year = today.year
+  yesterday = (today - timedelta(days=1)).replace(year=current_year) 
+  start_of_yesterday = datetime.combine(yesterday, datetime.min.time())
+  end_of_yesterday = datetime.combine(yesterday, datetime.max.time())
   url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday.isoformat()}&until={end_of_yesterday.isoformat()}"
   return fetch_data(url_closed_prs_yesterday)
-'''
+
 def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yesterday):
 
   if num_issues is not None and num_prs_open is not None:
