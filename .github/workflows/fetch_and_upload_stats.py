@@ -66,8 +66,8 @@ def fetch_num_closed_issues():
 def fetch_num_closed_prs_yesterday():
   today = datetime.utcnow()
   yesterday = today - timedelta(days=1)
-  start_of_yesterday = datetime.combine(yesterday, datetime.min())
-  end_of_yesterday = datetime.combine(yesterday, datetime.max())
+  start_of_yesterday = datetime.combine(yesterday, datetime.time.min())
+  end_of_yesterday = datetime.combine(yesterday, datetime.time.max())
   url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed={start_of_yesterday}&{end_of_yesterday}"
   return fetch_data(url_closed_prs_yesterday)
 
