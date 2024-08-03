@@ -81,7 +81,7 @@ def fetch_num_closed_prs_yesterday():
   url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday.isoformat()}&until={end_of_yesterday.isoformat()}"
   return fetch_data(url_closed_prs_yesterday)
 '''
-def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yesterday):
+def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_current_year):
 
   if num_issues is not None and num_prs_open is not None:
     # put metric data to CloudWatch
@@ -102,7 +102,7 @@ def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yester
         },
         {
           'MetricName':f'NumberOfPRsClosed.{REPO_NAME}',
-          'Value':num_prs_closed_yesterday,
+          'Value':num_prs_current_year,
           'Unit':'Count'
         }
       ]
@@ -114,5 +114,5 @@ def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yester
 if __name__ == "__main__":
   num_open_issues = fetch_num_open_issues()
   num_open_prs = fetch_num_open_prs()
-  num_closed_prs = fetch_num_closed_prs_yesterday()
+  num_closed_prs = fetch_num_closed_prs_current_year()
   upload_metrics_to_cloudwatch(num_open_issues - num_open_prs, num_open_prs, num_closed_prs)
