@@ -4,6 +4,7 @@ import boto3
 import json
 import os
 from datetime import datetime, timedelta, date
+import pytz
 
 # GitHub API details
 GITHUB_API_URL = "https://api.github.com"
@@ -71,8 +72,8 @@ def fetch_num_closed_prs_yesterday():
     print("This code is only intended to run in the current year.")
     
     yesterday = today - timedelta(days=1)
-    start_of_yesterday = datetime.combine(yesterday, time.gmtime())
-    end_of_yesterday = datetime.combine(yesterday, time.gmtime())
+    start_of_yesterday = datetime.combine(yesterday, datetime.min.astimezone(pytz.UTC))
+    end_of_yesterday = datetime.combine(yesterday,  datetime.max.astimezone(pytz.UTC))
 
     start_of_yesterday_week = start_of_yesterday.isocalendar()[1]
     end_of_yesterday_week = end_of_yesterday.isocalendar()[1]
