@@ -65,8 +65,8 @@ def fetch_num_closed_issues():
 
 def fetch_num_closed_prs_yesterday():
   current_date = datetime.now()
-  start_date = current_date - datetime.timedelta(days=current_date.weekday())
-  end_date = start_date + datetime.timedelta(days=7)
+  start_date = current_date - timedelta(days=current_date.weekday())
+  end_date = start_date + timedelta(days=7)
 
   url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/issues?state=closed&sort=updated&direction=desc&q=closed:{start_date.strftime('%Y-%m-%d')}..{end_date.strftime('%Y-%m-%d')}"
   return fetch_data(url_closed_prs_this_week)
