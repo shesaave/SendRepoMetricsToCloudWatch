@@ -66,6 +66,8 @@ def fetch_num_closed_issues():
 def fetch_num_closed_prs_yesterday():
   today = datetime.now()
   yesterday = today - timedelta(days=1)
+  start_of_yesterday = datetime.combine(yesterday, datetime.min.time())
+  end_of_yesterday = datetime.combine(yesterday, datetime.max.time())
   # Get the UTC offset for the start and end times
   start_offset = start_of_yesterday.utcoffset()
   end_offset = end_of_yesterday.utcoffset()
