@@ -67,7 +67,7 @@ def fetch_num_closed_prs_yesterday():
   current_year = datetime.utcnow().year
   current_week = datetime.utcnow().isocalendar()[1]
   today = datetime.utcnow().date()
-  if today.year!= current_year:
+  if today.year == current_year:
     print("This code is only intended to run in the current year.")
     
     yesterday = today - timedelta(days=1)
