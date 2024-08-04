@@ -71,8 +71,8 @@ def fetch_num_closed_prs_yesterday():
     print("This code is only intended to run in the current year.")
     
     yesterday = today - timedelta(days=1)
-    start_of_yesterday = datetime.combine(yesterday, datetime.time.min)
-    end_of_yesterday = datetime.combine(yesterday, datetime.time.max)
+    start_of_yesterday = datetime.combine(yesterday, time.min())
+    end_of_yesterday = datetime.combine(yesterday, time.max())
 
     start_of_yesterday_week = start_of_yesterday.isocalendar()[1]
     end_of_yesterday_week = end_of_yesterday.isocalendar()[1]
