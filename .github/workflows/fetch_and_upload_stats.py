@@ -64,22 +64,10 @@ def fetch_num_closed_issues():
   return fetch_data(url_closed_issues)
 
 def fetch_num_closed_prs_yesterday():
-  today = datetime.now()
+  today = datetime.utcnow()
   yesterday = today - timedelta(days=1)
-  start_of_yesterday = datetime.combine(yesterday, datetime.min.time())
-  end_of_yesterday = datetime.combine(yesterday, datetime.max.time())
-  # Get the UTC offset for the start and end times
-  start_offset = start_of_yesterday.utcoffset()
-  end_offset = end_of_yesterday.utcoffset()
-
-  # Adjust the start and end times to UTC
-  start_of_yesterday_utc = start_of_yesterday - start_offset
-  end_of_yesterday_utc = end_of_yesterday - end_offset
-
-  # Adjust the start and end times to UTC
-  start_of_yesterday_utc = start_of_yesterday - start_offset
-  end_of_yesterday_utc = end_of_yesterday - end_offset
-
+  start_of_yesterday_utc = yesterday.replace(hour=0, minute=0, second=0, microsecond=0)
+  end_of_yesterday_utc = yesterday.replace(hour=23, minute=59, second=59, microsecond=999999)
   url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday_utc.isoformat()}&until={end_of_yesterday_utc.isoformat()}"
   return fetch_data(url_closed_prs_yesterday)
 
