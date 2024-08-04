@@ -65,12 +65,14 @@ def fetch_num_closed_issues():
 
 def fetch_num_closed_prs_yesterday():
   today = datetime.utcnow().date()
-  yesterday = today - timedelta(days=1)
-  current_week = today.isocalendar()[1]
-  start_of_yesterday = datetime.combine(current_week, yesterday, datetime.min.time())
-  end_of_yesterday = datetime.combine(current_week, yesterday, datetime.max.time())
-  url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday.isoformat()}&until={end_of_yesterday.isoformat()}"
-  return fetch_data(url_closed_prs_yesterday)
+  start_of_week = today - timedelta(days=today.weekday())
+  end_of_week = start_of_week + timedelta(days=6)
+  
+  start_of_week_datetime = datetime.combine(start_of_week, datetime.min.time())
+  end_of_week_datetime = datetime.combine(end_of_week, datetime.max.time())
+  
+  url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_week_datetime.isoformat()}&until={end_of_week_datetime.isoformat()}"
+  return fetch_data(url_closed_prs_this_week)
 
 def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yesterday):
 
