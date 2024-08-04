@@ -65,10 +65,20 @@ def fetch_num_closed_issues():
 
 def fetch_num_closed_prs_yesterday():
   today = datetime.now()
-  yesterday = today.utcoffset() - timedelta(days=1)
-  start_of_yesterday = datetime.combine(yesterday, datetime.min.time())
-  end_of_yesterday = datetime.combine(yesterday, datetime.max.time())
-  url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday.utcoffset()}&until={end_of_yesterday.utcoffset()}"
+  yesterday = today - timedelta(days=1)
+  # Get the UTC offset for the start and end times
+  start_offset = start_of_yesterday.utcoffset()
+  end_offset = end_of_yesterday.utcoffset()
+
+  # Adjust the start and end times to UTC
+  start_of_yesterday_utc = start_of_yesterday - start_offset
+  end_of_yesterday_utc = end_of_yesterday - end_offset
+
+  # Adjust the start and end times to UTC
+  start_of_yesterday_utc = start_of_yesterday - start_offset
+  end_of_yesterday_utc = end_of_yesterday - end_offset
+
+  url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday_utc.isoformat()}&until={end_of_yesterday_utc.isoformat()}"
   return fetch_data(url_closed_prs_yesterday)
 
 def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yesterday):
