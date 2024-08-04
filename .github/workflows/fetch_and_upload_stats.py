@@ -63,18 +63,25 @@ def fetch_num_closed_issues():
   url_closed_issues = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/issues?state=closed"
   return fetch_data(url_closed_issues)
 
+
 def fetch_num_closed_prs_yesterday():
   today = datetime.utcnow().date()
-  yesterday = today - timedelta(days=1)
-  start_of_yesterday = datetime.combine(yesterday, datetime.min.time())
-  end_of_yesterday = datetime.combine(yesterday, datetime.max.time())
-  start_of_yesterday_week = yesterday - timedelta(days=yesterday.weekday())
-  start_of_yesterday_week = datetime.combine(start_of_yesterday_week, datetime.min.time())
-  # Filter by current year
   current_year = today.year
-  start_of_yesterday = max(start_of_yesterday, datetime(current_year, 1, 1))
-  end_of_yesterday = min(end_of_yesterday, datetime(current_year, 12, 31, 23, 59, 59))
-  url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday.isoformat()}&until={end_of_yesterday.isoformat()}&week={start_of_yesterday_week}"
+  
+  # Calculate the start of the current week
+  start_of_current_week = today - timedelta(days=today.weekday())
+  start_of_current_week = datetime.combine(start_of_current_week, datetime.min.time())
+  
+  # Calculate the start and end of the current day
+  start_of_current_day = datetime.combine(today, datetime.min.time())
+  end_of_current_day = datetime.combine(today, datetime.max.time())
+  
+  # Filter by current year, current week, and current day
+  start_of_current_day = max(start_of_current_day, start_of_current_week)
+  start_of_current_day = max(start_of_current_day, datetime(current_year, 1, 1))
+  end_of_current_day = min(end_of_current_day, datetime(current_year, 12, 31, 23, 59, 59))
+  
+  url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_current_day.isoformat()}&until={end_of_current_day.isoformat()}"
   return fetch_data(url_closed_prs_yesterday)
 
 def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yesterday):
