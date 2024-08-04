@@ -68,6 +68,8 @@ def fetch_num_closed_prs_yesterday():
   yesterday = today - timedelta(days=1)
   start_of_yesterday = datetime.combine(yesterday, datetime.min.time())
   end_of_yesterday = datetime.combine(yesterday, datetime.max.time())
+  start_of_yesterday_week = yesterday - timedelta(days=yesterday.weekday())
+  start_of_yesterday_week = datetime.combine(start_of_yesterday_week, datetime.min.time())
   # Filter by current year
   current_year = today.year
   start_of_yesterday = max(start_of_yesterday, datetime(current_year, 1, 1))
