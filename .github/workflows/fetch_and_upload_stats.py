@@ -70,8 +70,8 @@ def fetch_num_closed_prs_yesterday():
     print("This code is only intended to run in the current year.")
     return None
   yesterday = today - timedelta(days=1)
-  start_of_yesterday = datetime.combine(yesterday, datetime.min.time())
-  end_of_yesterday = datetime.combine(yesterday, datetime.max.time())
+  start_of_yesterday = datetime(yesterday.year, yesterday.month, yesterday.day, 0, 0, 0)
+  end_of_yesterday = datetime(yesterday.year, yesterday.month, yesterday.day, 23, 59, 59)
   url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday.isoformat()}&until={end_of_yesterday.isoformat()}"
   return fetch_data(url_closed_prs_yesterday)
 
