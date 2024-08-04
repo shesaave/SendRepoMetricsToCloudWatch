@@ -3,8 +3,8 @@ import time
 import boto3
 import json
 import os
-from datetime import datetime, timedelta, date
 import pytz
+from datetime import datetime, timedelta, date
 
 # GitHub API details
 GITHUB_API_URL = "https://api.github.com"
