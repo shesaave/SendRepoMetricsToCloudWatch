@@ -3,7 +3,6 @@ import time
 import boto3
 import json
 import os
-import pytz
 from datetime import datetime, timedelta, date
 
 # GitHub API details
