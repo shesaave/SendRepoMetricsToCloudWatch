@@ -64,7 +64,7 @@ def fetch_num_closed_issues():
   return fetch_data(url_closed_issues)
 
 def fetch_num_closed_prs_yesterday():
-  current_date = datetime.datetime.now()
+  current_date = datetime.now()
   start_date = current_date - datetime.timedelta(days=current_date.weekday())
   end_date = start_date + datetime.timedelta(days=7)
 
