@@ -4,7 +4,6 @@ import boto3
 import json
 import os
 from datetime import datetime, timedelta, date
-import datetime
 
 # GitHub API details
 GITHUB_API_URL = "https://api.github.com"
@@ -67,7 +66,7 @@ def fetch_num_closed_issues():
 def fetch_num_closed_prs_yesterday():
   today = datetime.utcnow().date()
   yesterday = today - timedelta(days=1)
-  now = datetime.datetime.now()
+  now = datetime.now()
   current_week = now.isocalendar()[1]
   start_of_yesterday = datetime.combine(current_week, yesterday, datetime.min.time())
   end_of_yesterday = datetime.combine(current_week, yesterday, datetime.max.time())
