@@ -70,7 +70,7 @@ def fetch_num_closed_prs_yesterday():
   response = requests.get(url_closed_prs_yesterday)
   closed_prs = response.json()
   recent_closed_prs = [pr for pr in closed_prs if datetime.strptime(pr['closed_at'], '%Y-%m-%dT%H:%M:%SZ').date() == yesterday]
-  return len(recent_closed_prs)
+  return fetch_data(recent_closed_prs)
   '''
   today = datetime.utcnow()
   yesterday = today - timedelta(days=1)
