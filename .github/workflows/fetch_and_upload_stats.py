@@ -64,7 +64,7 @@ def fetch_num_closed_issues():
   return fetch_data(url_closed_issues)
 
 def fetch_num_closed_prs_yesterday():
-  url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?q=closed+this+week"
+  url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&sort=updated&direction=desc&q=closed:this+week"
   return fetch_data(url_closed_prs_this_week)
 
 def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yesterday):
