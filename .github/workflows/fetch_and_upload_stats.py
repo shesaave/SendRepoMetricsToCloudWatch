@@ -65,21 +65,16 @@ def fetch_num_closed_issues():
   return fetch_data(url_closed_issues)
 
 def fetch_num_closed_prs_yesterday():
-  current_year = datetime.utcnow().year
-  current_week = datetime.utcnow().isocalendar()[1]
   today = datetime.utcnow().date()
-  if today.year == current_year:
-    print("This code is only intended to run in the current year.")
-    
-    yesterday = today - timedelta(days=1)
-    start_of_yesterday = datetime.combine(yesterday, datetime.min.astimezone(pytz.UTC))
-    end_of_yesterday = datetime.combine(yesterday,  datetime.max.astimezone(pytz.UTC))
-
-    start_of_yesterday_week = start_of_yesterday.isocalendar()[1]
-    end_of_yesterday_week = end_of_yesterday.isocalendar()[1]
-
-    url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday.isoformat()}&until={end_of_yesterday.isoformat()}&week={start_of_yesterday_week}"
-    return fetch_data(url_closed_prs_yesterday)
+  yesterday = today - timedelta(days=1)
+  start_of_yesterday = datetime.combine(yesterday, datetime.min.time())
+  end_of_yesterday = datetime.combine(yesterday, datetime.max.time())
+  # Filter by current year
+  current_year = today.year
+  start_of_yesterday = max(start_of_yesterday, datetime(current_year, 1, 1))
+  end_of_yesterday = min(end_of_yesterday, datetime(current_year, 12, 31, 23, 59, 59))
+  url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_yesterday.isoformat()}&until={end_of_yesterday.isoformat()}&week={start_of_yesterday_week}"
+  return fetch_data(url_closed_prs_yesterday)
 
 def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yesterday):
 
