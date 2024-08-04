@@ -63,7 +63,6 @@ def fetch_num_closed_issues():
   url_closed_issues = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/issues?state=closed"
   return fetch_data(url_closed_issues)
 
-
 def fetch_num_closed_prs_yesterday():
   today = datetime.utcnow().date()
   current_year = today.year
@@ -72,6 +71,10 @@ def fetch_num_closed_prs_yesterday():
   start_of_current_week = today - timedelta(days=today.weekday())
   start_of_current_week = datetime.combine(start_of_current_week, datetime.min.time())
   
+  # Calculate the end of the current week
+  end_of_current_week = start_of_current_week + timedelta(days=6)
+  end_of_current_week = datetime.combine(end_of_current_week, datetime.max.time())
+  
   # Calculate the start and end of the current day
   start_of_current_day = datetime.combine(today, datetime.min.time())
   end_of_current_day = datetime.combine(today, datetime.max.time())
@@ -79,6 +82,7 @@ def fetch_num_closed_prs_yesterday():
   # Filter by current year, current week, and current day
   start_of_current_day = max(start_of_current_day, start_of_current_week)
   start_of_current_day = max(start_of_current_day, datetime(current_year, 1, 1))
+  end_of_current_day = min(end_of_current_day, end_of_current_week)
   end_of_current_day = min(end_of_current_day, datetime(current_year, 12, 31, 23, 59, 59))
   
   url_closed_prs_yesterday = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_current_day.isoformat()}&until={end_of_current_day.isoformat()}"
