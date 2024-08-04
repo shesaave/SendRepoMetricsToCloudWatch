@@ -69,7 +69,7 @@ def fetch_num_closed_prs_yesterday():
   url_closed_prs = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&per_page=100"
   closed_prs = fetch_data(url_closed_prs)
   recent_closed_prs = [pr for pr in closed_prs if datetime.strptime(pr['closed_at'], '%Y-%m-%dT%H:%M:%SZ').date() == yesterday]
-  return len(recent_closed_prs)
+  return fetch_data(recent_closed_prs)
   '''
   today = datetime.utcnow()
   yesterday = today - timedelta(days=1)
