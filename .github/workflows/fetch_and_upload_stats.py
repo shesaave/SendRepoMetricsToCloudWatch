@@ -71,7 +71,7 @@ def fetch_num_closed_prs_yesterday():
   start_of_week_datetime = datetime.combine(start_of_week, datetime.min.time())
   end_of_week_datetime = datetime.combine(end_of_week, datetime.max.time())
   
-  url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_week_datetime.isoformat()}&until={end_of_week_datetime.isoformat()}"
+  url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_week.isoformat()}&sort=updated&direction=desc"
   return fetch_data(url_closed_prs_this_week)
 
 def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yesterday):
