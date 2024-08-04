@@ -66,10 +66,12 @@ def fetch_num_closed_issues():
 def fetch_num_closed_prs_yesterday():
   today = datetime.utcnow().date()
   yesterday = today - timedelta(days=1)
-  url_closed_prs = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&per_page=100"
+  last_week = today - timedelta(days=7)
+  start_of_last_week = datetime.combine(last_week, datetime.min.time())
+  url_closed_prs = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_last_week.isoformat()}"
   closed_prs = fetch_data(url_closed_prs)
   recent_closed_prs = [pr for pr in closed_prs if datetime.strptime(pr['closed_at'], '%Y-%m-%dT%H:%M:%SZ').date() == yesterday]
-  return fetch_data(recent_closed_prs)
+  return len(recent_closed_prs)
   '''
   today = datetime.utcnow()
   yesterday = today - timedelta(days=1)
