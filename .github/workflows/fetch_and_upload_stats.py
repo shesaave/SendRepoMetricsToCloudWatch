@@ -66,9 +66,9 @@ def fetch_num_closed_issues():
 def fetch_num_closed_prs_yesterday():
   current_year = datetime.utcnow().year
   today = datetime.utcnow().date()
-    if today.year!= current_year:
-        print("This code is only intended to run in the current year.")
-        return None
+  if today.year!= current_year:
+    print("This code is only intended to run in the current year.")
+    return None
   yesterday = today - timedelta(days=1)
   start_of_yesterday = datetime.combine(yesterday, datetime.min.time())
   end_of_yesterday = datetime.combine(yesterday, datetime.max.time())
