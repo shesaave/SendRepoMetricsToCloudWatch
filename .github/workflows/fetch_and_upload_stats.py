@@ -68,7 +68,7 @@ def fetch_num_closed_prs_yesterday():
   current_year = today.year
   current_week = today.isocalendar()[1]
   start_of_week_datetime = datetime.strptime(f"{current_year}-W{current_week}-1", "%Y-W%W-%w")
-  end_of_week_datetime = start_of_week_datetime + datetime.timedelta(days=6) 
+  end_of_week_datetime = start_of_week_datetime + timedelta(days=6) 
   url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed&since={start_of_week_datetime.isoformat()}&until={end_of_week_datetime.isoformat()}"
   return fetch_data(url_closed_prs_this_week)
 
