@@ -40,8 +40,8 @@ def fetch_data(url):
         items.extend(response.json())
         url = response.links.get('next', {}).get('url')
         break
-        stats = response.json()
-        url = len(stats)
+        #stats = response.json()
+        #url = len(stats)
       elif response.status_code == 202:
         print("Got 202, Wating...")
         time.sleep(30)
@@ -63,13 +63,13 @@ def fetch_num_closed_issues():
   return fetch_data(url_closed_issues)
 
 def fetch_num_closed_prs_yesterday():
-  current_year = datetime.utcnow().date
+  current_date = datetime.utcnow().date
   start_date = current_date - timedelta(days=current_date.weekday())
   #end_date = start_date + timedelta(days=6)
   #url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/issues?state=closed&sort=updated&direction=desc&q=is:pr+closed:>=${start_date.isoformat()}+closed:<={end_date.isoformat()}"
   #url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/issues?state=closed&sort=updated&direction=desc&q=is:pr+closed&since={start_date.isoformat()}&until={end_date.isoformat()}"
   #url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/issues?q=is:pr+is:closed+repo:{REPO_NAME}+closed:>=2024-01-01+closed:<=2024-12-31"
-  url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/pulls?state=closed created:>{start_date.isoformat()}"
+  url_closed_prs_this_week = f"{GITHUB_API_URL}/repos/aws-actions/{REPO_NAME}/issues?q=is:pr is:closed created:>{start_date.isoformat()}"
   return fetch_data(url_closed_prs_this_week)
 
 def upload_metrics_to_cloudwatch(num_issues, num_prs_open, num_prs_closed_yesterday):
