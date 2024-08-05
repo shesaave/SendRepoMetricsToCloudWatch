@@ -40,8 +40,8 @@ def fetch_data(url):
         items.extend(response.json())
         url = response.links.get('next', {}).get('url')
         break
-         stats = response.json()
-         url = len(stats)
+        stats = response.json()
+        url = len(stats)
       elif response.status_code == 202:
         print("Got 202, Wating...")
         time.sleep(30)
